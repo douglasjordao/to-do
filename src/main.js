@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import { Quasar, Loading, QSpinnerFacebook } from 'quasar';
+import { Quasar, Loading, QSpinnerFacebook, Notify } from 'quasar';
 
 import App from './App.vue';
 import router from './router';
@@ -15,6 +15,7 @@ app.use(router);
 app.use(Quasar, {
   plugins: {
     Loading,
+    Notify,
   },
   config: {
     loading: {

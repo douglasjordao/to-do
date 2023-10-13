@@ -1,7 +1,8 @@
 <template>
   <router-view />
+  <LoadingScreen />
 </template>
 
-<script setup></script>
-
-<style lang="scss" scoped></style>
+<script setup>
+import LoadingScreen from '@/components/LoadingScreen.vue';
+</script>
