@@ -18,6 +18,15 @@ const useTaskService = () => ({
       return false;
     }
   },
+  completeTask: async (id) => {
+    try {
+      await axiosInstance.delete(`task/${id}`);
+
+      return true;
+    } catch {
+      return false;
+    }
+  },
 });
 
 export { useTaskService };

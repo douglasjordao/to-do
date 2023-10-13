@@ -16,7 +16,7 @@
     </div>
 
     <div class="column q-mt-md">
-      <TaskComponent v-for="item in data.items" :value="item" :key="item.id" />
+      <TaskComponent v-for="item in data.items" :value="item" :key="item.id" class="q-mb-md" />
     </div>
   </div>
 </template>

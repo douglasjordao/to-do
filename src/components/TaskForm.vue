@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { useTaskService } from '@/services/taskService';
 import { useQuasar } from 'quasar';
 import { useLoadingScreenStore } from '@/stores/loading';
@@ -71,4 +71,16 @@ const createTask = async () => {
 
   loading.status = false;
 };
+const clearForm = () => {
+  form.name = '';
+  form.description = '';
+};
+
+/* Watchers */
+watch(
+  () => loading.status,
+  () => {
+    clearForm();
+  },
+);
 </script>
