@@ -1,6 +1,6 @@
 <template>
   <div class="column vertical-middle todo-container q-pt-lg">
-    <div class="row items-center q-mb-lg">
+    <div class="row items-center">
       <h6 class="q-my-none q-mr-sm">Hoje</h6>
       <span class="text-caption">{{
         new Date().toLocaleDateString('pt-BR', {
@@ -11,18 +11,28 @@
       }}</span>
     </div>
 
-    <div class="row">
+    <div class="column q-mt-md todo-container__table">
+      <TaskComponent v-for="item in data.items" :value="item" :key="item.id" class="q-mb-md" />
       <TaskForm />
     </div>
 
-    <div class="column q-mt-md">
-      <TaskComponent v-for="item in data.items" :value="item" :key="item.id" class="q-mb-md" />
-    </div>
+    <q-pagination
+      v-if="maxPage > 1"
+      v-model="data.page"
+      :max="maxPage"
+      direction-links
+      boundary-links
+      class="q-mx-auto"
+      icon-first="skip_previous"
+      icon-last="skip_next"
+      icon-prev="fast_rewind"
+      icon-next="fast_forward"
+    />
   </div>
 </template>
 
 <script setup>
-import { reactive, onMounted, watch } from 'vue';
+import { reactive, computed, onMounted, watch } from 'vue';
 import { useTaskService } from '@/services/taskService';
 import { useLoadingScreenStore } from '@/stores/loading';
 import { useTaskStore } from '@/stores/tasks';
@@ -39,9 +49,12 @@ const tasks = useTaskStore();
 const data = reactive({
   page: 1,
   pageSize: 10,
-  total: 0,
+  totalItems: 0,
   items: [],
 });
+
+/* Computed */
+const maxPage = computed(() => Math.ceil(data.totalItems / data.pageSize));
 
 /* Methods */
 const getTasks = async () => {
@@ -65,6 +78,13 @@ watch(
   },
 );
 
+watch(
+  () => data.page,
+  async () => {
+    await getTasks();
+  },
+);
+
 /* Lifecycle Hooks */
 onMounted(async () => {
   await getTasks();
@@ -74,6 +94,10 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .todo-container {
   width: 650px;
+
+  &__table {
+    min-height: calc(100vh - 380px);
+  }
 }
 </style>
 @/services/taskService
