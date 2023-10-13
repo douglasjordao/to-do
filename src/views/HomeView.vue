@@ -1,7 +1,11 @@
 <template>
-  <h1>Home</h1>
+  <div class="row justify-center">
+    <TodoTable class="q-my-md"/>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import TodoTable from '@/components/TodoTable.vue';
+</script>
 
 <style lang="scss" scoped></style>
